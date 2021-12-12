@@ -1,14 +1,14 @@
-use crate::{List, Cons, Nil};
+use crate::{Cons, List, Nil};
 
 pub trait AsArray: List {
     fn as_array() -> [usize; Self::LEN];
 }
 
-impl<const X: usize, Xs: List> /* const */ AsArray for Cons<X, Xs>
+impl<const X: usize, Xs> AsArray for Cons<X, Xs>
 where
-    Xs: /* ~const */ AsArray,
-    [(); Self::LEN]:,
-    [(); Xs::LEN]:,
+    Xs: AsArray,
+    [(); Self::LEN]: ,
+    [(); Xs::LEN]: ,
 {
     fn as_array() -> [usize; Self::LEN] {
         let mut arr = [0; Self::LEN];
@@ -26,8 +26,20 @@ where
     }
 }
 
-impl /* const */ AsArray for Nil {
+impl AsArray for Nil {
     fn as_array() -> [usize; Self::LEN] {
         []
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_as_array() {
+        assert_eq!(<list!(1, 2, 3, 4, 5) as AsArray>::as_array(), [1, 2, 3, 4, 5]);
+        assert_eq!(<list!(1) as AsArray>::as_array(), [1]);
+        assert_eq!(<list!() as AsArray>::as_array(), []);
     }
 }

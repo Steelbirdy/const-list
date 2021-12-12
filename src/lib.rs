@@ -1,8 +1,13 @@
 #![allow(incomplete_features)]
-#![feature(generic_const_exprs, generic_associated_types, const_trait_impl)]
+#![feature(generic_const_exprs, generic_associated_types, const_trait_impl, const_fn_trait_bound)]
+
+#[macro_use]
+mod macros;
 
 mod as_array;
 mod contains;
+mod index;
+mod reverse;
 
 pub struct Cons<const X: usize, Xs: List>(std::marker::PhantomData<Xs>);
 pub struct Nil;
@@ -10,6 +15,7 @@ pub struct Nil;
 pub trait List {
     const LEN: usize;
     const SUM: usize;
+    const PRODUCT: usize;
 
     type PushFront<const A: usize>: List;
     type PushBack<const Z: usize>: List;
@@ -20,6 +26,7 @@ pub trait List {
 impl<const X: usize, Xs: List> List for Cons<X, Xs> {
     const LEN: usize = 1 + Xs::LEN;
     const SUM: usize = X + Xs::SUM;
+    const PRODUCT: usize = X * Xs::PRODUCT;
 
     type PushFront<const A: usize> = Cons<A, Self>;
     type PushBack<const Z: usize> = Cons<X, Xs::PushBack<Z>>;
@@ -30,6 +37,7 @@ impl<const X: usize, Xs: List> List for Cons<X, Xs> {
 impl List for Nil {
     const LEN: usize = 0;
     const SUM: usize = 0;
+    const PRODUCT: usize = 1;
 
     type PushFront<const A: usize> = Cons<A, Nil>;
     type PushBack<const Z: usize> = Cons<Z, Nil>;

@@ -1,4 +1,4 @@
-use super::{Cons, Nil, List};
+use super::{Cons, List, Nil};
 
 pub trait Contains<const X: usize>: List {
     const CONTAINS: bool;
@@ -24,7 +24,8 @@ impl<const X: usize, Xs: List, const K: usize, L: List> ContainsAll<Cons<K, L>> 
 where
     Self: Contains<K> + ContainsAll<L>,
 {
-    const CONTAINS_ALL: bool = { <Self as Contains<K>>::CONTAINS && <Self as ContainsAll<L>>::CONTAINS_ALL };
+    const CONTAINS_ALL: bool =
+        { <Self as Contains<K>>::CONTAINS && <Self as ContainsAll<L>>::CONTAINS_ALL };
 }
 
 impl ContainsAll<Nil> for Nil {
@@ -33,4 +34,21 @@ impl ContainsAll<Nil> for Nil {
 
 impl<const K: usize, L: List> ContainsAll<Cons<K, L>> for Nil {
     const CONTAINS_ALL: bool = false;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_contains() {
+        assert!(<list!(1, 2, 3) as Contains<2>>::CONTAINS);
+        assert!(!<list!(1, 2, 3) as Contains<4>>::CONTAINS);
+    }
+
+    #[test]
+    fn test_contains_all() {
+        assert!(<list!(2, 4, 6, 8, 10) as ContainsAll<list!(4, 8, 2, 6)>>::CONTAINS_ALL);
+        assert!(!<list!(2, 4, 6, 8, 10) as ContainsAll<list!(4, 8, 2, 6, 1)>>::CONTAINS_ALL);
+    }
 }

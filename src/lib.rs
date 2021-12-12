@@ -8,6 +8,13 @@ mod as_array;
 mod contains;
 mod index;
 mod reverse;
+mod insert;
+
+pub use as_array::AsArray;
+pub use contains::{Contains, ContainsAll};
+pub use index::ListIndex;
+pub use reverse::Reverse;
+pub use insert::Insert;
 
 pub struct Cons<const X: usize, Xs: List>(std::marker::PhantomData<Xs>);
 pub struct Nil;

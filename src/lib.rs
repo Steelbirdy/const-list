@@ -10,6 +10,8 @@ mod index;
 mod reverse;
 mod insert;
 mod index_iter;
+mod max_min;
+mod find;
 
 pub use as_array::AsArray;
 pub use contains::{Contains, ContainsAll};

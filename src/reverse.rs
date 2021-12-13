@@ -1,6 +1,6 @@
 use super::{Cons, List, Nil};
 
-pub trait Reverse: List {
+pub trait Reverse {
     type Output: List;
 }
 
@@ -8,7 +8,7 @@ impl Reverse for Nil {
     type Output = Nil;
 }
 
-impl<const X: usize, Xs: Reverse> Reverse for Cons<X, Xs> {
+impl<const X: usize, Xs: List + Reverse> Reverse for Cons<X, Xs> {
     type Output = <Xs::Output as List>::PushBack<X>;
 }
 

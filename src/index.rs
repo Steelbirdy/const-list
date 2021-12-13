@@ -1,6 +1,6 @@
 use super::{Cons, List, Nil};
 
-pub trait ListIndex<const I: usize>: List {
+pub trait ListIndex<const I: usize> {
     const OUTPUT: Option<usize>;
 }
 

@@ -9,6 +9,7 @@ mod contains;
 mod index;
 mod reverse;
 mod insert;
+mod index_iter;
 
 pub use as_array::AsArray;
 pub use contains::{Contains, ContainsAll};
@@ -28,6 +29,7 @@ pub trait List {
     type PushBack<const Z: usize>: List;
 
     type Reversed: List;
+    type Concat<L: List>: List;
 }
 
 impl<const X: usize, Xs: List> List for Cons<X, Xs> {
@@ -39,6 +41,7 @@ impl<const X: usize, Xs: List> List for Cons<X, Xs> {
     type PushBack<const Z: usize> = Cons<X, Xs::PushBack<Z>>;
 
     type Reversed = <Xs::Reversed as List>::PushBack<X>;
+    type Concat<L: List> = Cons<X, Xs::Concat<L>>;
 }
 
 impl List for Nil {
@@ -50,4 +53,5 @@ impl List for Nil {
     type PushBack<const Z: usize> = Cons<Z, Nil>;
 
     type Reversed = Nil;
+    type Concat<L: List> = L;
 }

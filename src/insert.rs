@@ -1,6 +1,6 @@
 use super::{List, Cons, Nil};
 
-pub trait Insert<const I: usize, const V: usize>: List {
+pub trait Insert<const I: usize, const V: usize> {
     type Output: List;
 }
 
@@ -11,7 +11,7 @@ where
     type Output = <L as __Insert<false, I, V>>::Output;
 }
 
-pub trait __Insert<const DONE: bool, const I: usize, const V: usize>: List {
+pub trait __Insert<const DONE: bool, const I: usize, const V: usize> {
     type Output: List;
 }
 
@@ -35,7 +35,7 @@ pub const fn if_else<T: Copy>(pred: bool, a: T, b: T) -> T {
     }
 }
 
-impl<const X: usize, Xs, const I: usize, const V: usize> __Insert<false, I, V> for Cons<X, Xs>
+impl<const X: usize, Xs: List, const I: usize, const V: usize> __Insert<false, I, V> for Cons<X, Xs>
 where
     Xs: __Insert<{ I == 0 }, { I.saturating_sub(1) }, { if_else(I == 0, X, V) }>,
     [(); if_else(I == 0, V, X)]: ,

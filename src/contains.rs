@@ -1,10 +1,10 @@
 use super::{Cons, List, Nil};
 
-pub trait Contains<const X: usize>: List {
+pub trait Contains<const X: usize> {
     const CONTAINS: bool;
 }
 
-impl<const X: usize, Xs: Contains<K>, const K: usize> Contains<K> for Cons<X, Xs> {
+impl<const X: usize, Xs: List + Contains<K>, const K: usize> Contains<K> for Cons<X, Xs> {
     const CONTAINS: bool = { X == K || Xs::CONTAINS };
 }
 
@@ -12,7 +12,7 @@ impl<const K: usize> Contains<K> for Nil {
     const CONTAINS: bool = false;
 }
 
-pub trait ContainsAll<L: List>: List {
+pub trait ContainsAll<L: List> {
     const CONTAINS_ALL: bool;
 }
 

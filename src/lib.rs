@@ -12,6 +12,7 @@ mod insert;
 mod index_iter;
 mod max_min;
 mod find;
+mod remove;
 
 pub use as_array::AsArray;
 pub use contains::{Contains, ContainsAll};

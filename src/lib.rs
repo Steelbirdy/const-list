@@ -16,9 +16,12 @@ mod remove;
 
 pub use as_array::AsArray;
 pub use contains::{Contains, ContainsAll};
+pub use find::{Find, FindAll};
 pub use index::ListIndex;
-pub use reverse::Reverse;
 pub use insert::Insert;
+pub use max_min::{Max, Min};
+pub use remove::{Remove, RemoveValue, RemoveValueAll};
+pub use reverse::Reverse;
 
 pub struct Cons<const X: usize, Xs: List>(std::marker::PhantomData<Xs>);
 pub struct Nil;

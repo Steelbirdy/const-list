@@ -1,3 +1,4 @@
+#[macro_export]
 macro_rules! list {
     ($first:expr $(, $x:expr)* $(,)?) => {
         $crate::Cons<$first, list!($($x),*)>

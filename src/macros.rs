@@ -1,7 +1,7 @@
 #[macro_export]
 macro_rules! list {
     ($first:expr $(, $x:expr)* $(,)?) => {
-        $crate::Cons<$first, list!($($x),*)>
+        $crate::Cons<$first, $crate::list!($($x),*)>
     };
     () => {
         $crate::Nil
